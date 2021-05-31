@@ -6,10 +6,11 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/CodersSquad/dc-final/api"
-	"github.com/CodersSquad/dc-final/controller"
-	"github.com/CodersSquad/dc-final/scheduler"
+	"github.com/marianamgg/dc-final/api"
+	"github.com/marianamgg/dc-final/controller"
+	"github.com/marianamgg/dc-final/scheduler"
 )
+
 
 func main() {
 	log.Println("Welcome to the Distributed and Parallel Image Processing System")

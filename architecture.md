@@ -1,2 +1,3 @@
 Architecture Document
 =====================
+![](architecture.png)

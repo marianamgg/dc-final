@@ -12,6 +12,8 @@ import (
 	"go.nanomsg.org/mangos"
 	"go.nanomsg.org/mangos/protocol/sub"
 	"google.golang.org/grpc"
+	"github.com/marianamgg/dc-final/controller"
+	"github.com/marianamgg/dc-final/api"
 
 	// register transports
 	_ "go.nanomsg.org/mangos/transport/all"
@@ -43,6 +45,11 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
 
+func (s *server) GrayScaleFilter(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Gray Scale FIlter " + in.GetName()}, nil
+}
+
+
 func init() {
 	flag.StringVar(&controllerAddress, "controller", "tcp://localhost:40899", "Controller address")
 	flag.StringVar(&workerName, "worker-name", "hard-worker", "Worker Name")
@@ -72,8 +79,12 @@ func joinCluster() {
 		if msg, err = sock.Recv(); err != nil {
 			die("Cannot recv: %s", err.Error())
 		}
+
 		log.Printf("Message-Passing: Worker(%s): Received %s\n", workerName, string(msg))
 	}
+	var token string
+	token = api.GenerateSecureToken(2)
+	controller.SaveController(workerName, token, false, "gray")
 }
 
 func getAvailablePort() int {
